@@ -1,0 +1,12 @@
+package database.java.application;
+
+public class StartProgram {
+	
+	@SuppressWarnings("unused")
+	private static startGui start;
+
+	public static void main(String[] args) {
+		start = new startGui();
+		System.out.println("1");
+	}		
+}
