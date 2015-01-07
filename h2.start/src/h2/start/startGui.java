@@ -181,13 +181,14 @@ public class startGui extends JFrame {
 	upPanel2.add(yearLabel);
 	upPanel2.add(year);
 	
-	viewCars.addActionListener(new ViewAllCars());
-	downPanel2.add(viewCars);
 	
+	downPanel2.add(viewCars);
+	viewCars.addActionListener(new ViewAllCars());
 	downPanel2.add(addButton2);
 	addButton2.addActionListener(new AddCars());
 	myTable2.repaint();
 	downPanel2.add(upDateButton2);
+	upDateButton2.addActionListener(new UpdateCar());
 	downPanel2.add(deleteButton2);
 	downPanel2.add(tablePanel2);
 	
@@ -388,13 +389,9 @@ public class startGui extends JFrame {
 			String email = eMail.getText();
 			int ph = Integer.parseInt(phone.getText());
 			String address = addressName.getText();
-			String newName = firstName.getText();
-			newName = JOptionPane.showInputDialog(panel1,"Enter the new name:");
-			if ((newName == "")) {
-				newName = firstName.getText();
-			}
+			
 			conn = DataBaseConection.getDataBaseConection();
-			String sql = "update CUSTUMERS set FIRST_NAME = ?, LAST_NAME = ?, EMAIL = ?, PHONE = ?, ADDRESS = ? where FIRST_NAME = ?";
+			String sql = "update CUSTUMERS set FIRST_NAME = ?, LAST_NAME = ?, EMAIL = ?, PHONE = ?, ADDRESS = ? where EMAIL = ?";
 			try {
 				PreparedStatement prep = conn.prepareStatement(sql);
 				prep.setString(1, fName);
@@ -402,21 +399,19 @@ public class startGui extends JFrame {
 				prep.setString(3, email);
 				prep.setInt(4, ph);;
 				prep.setString(5, address);
-				prep.setString(6, fName);
+				prep.setString(6, email);
 				prep.execute();
 				refreshContent();
 				prep.close();
 				conn.close();
 			} catch (SQLException e2) {
-				System.out.println("SQL update greshka");
 				e2.printStackTrace();
 			} catch (Exception e2) {
-				System.out.println("greshka");
 				e2.printStackTrace();
 			}
 		}
 			
-		}
+		}//end class
 	
 	class DeleteCustumer implements ActionListener {
 
@@ -434,10 +429,8 @@ public class startGui extends JFrame {
 				refreshContent();
 				prep.close();
 				conn.close();
-				System.out.println("9999");
 			} catch (SQLException e2) {
 				e2.printStackTrace();
-				System.out.println("greshka dele");
 			}
 		}
 	
@@ -501,5 +494,38 @@ public class startGui extends JFrame {
 			
 			
 		}// end actionPerformed
+	}
+	
+	class UpdateCar implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String mk = make.getText();
+			String mo = model.getText();
+			String n = number.getText();
+			double pr = Double.parseDouble(price.getText());
+			int yr = Integer.parseInt(year.getText());
+			
+			conn = DataBaseConection.getDataBaseConection();
+			String sql = "update CARS set MAKE = ?, MODEL = ?, NO = ?, PRICE = ?, YEAR = ? where NO = ?";
+			try {
+				PreparedStatement prep = conn.prepareStatement(sql);
+				prep.setString(1, mk);
+				prep.setString(2, mo);
+				prep.setString(3, n);
+				prep.setDouble(4, pr);
+				prep.setInt(5, yr);
+				prep.setString(6, n);
+				prep.execute();
+				refreshContent2();
+				prep.close();
+				conn.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+			
 	}
 }
