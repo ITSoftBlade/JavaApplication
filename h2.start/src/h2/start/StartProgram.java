@@ -7,6 +7,6 @@ public class StartProgram {
 
 	public static void main(String[] args) {
 		start = new startGui();
-		System.out.println("1");
+		
 	}		
 }

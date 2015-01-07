@@ -88,6 +88,7 @@ public class startGui extends JFrame {
 	private JButton addButton3 = new JButton("ADD");
 	private JButton upDateButton3 = new JButton("UPDATE");
 	private JButton deleteButton3 = new JButton("DELETE");
+
 	
 	Connection conn;
 	JTable myTable = new JTable();
@@ -190,6 +191,7 @@ public class startGui extends JFrame {
 	downPanel2.add(upDateButton2);
 	upDateButton2.addActionListener(new UpdateCar());
 	downPanel2.add(deleteButton2);
+	deleteButton2.addActionListener(new DeleteCars());
 	downPanel2.add(tablePanel2);
 	
 	//table2 panel2
@@ -230,6 +232,7 @@ public class startGui extends JFrame {
 	upPanel3.add(freeLabel);
 	upPanel3.add(free1Label);
 	downPanel3.add(viewOrders);
+	viewOrders.addActionListener(new ViewAllOrders());
 	downPanel3.add(addButton3);
 	downPanel3.add(upDateButton3);
 	downPanel3.add(deleteButton3);
@@ -464,8 +467,8 @@ public class startGui extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String mod = make.getText();
-			String mak = model.getText();
+			String mod = model.getText();
+			String mak = make.getText();
 			String no = number.getText();
 			double pr = Double.parseDouble(price.getText());
 			int yr = Integer.parseInt(year.getText());
@@ -528,4 +531,91 @@ public class startGui extends JFrame {
 		}
 			
 	}
+	class DeleteCars implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String n = number.getText();
+			
+			conn = DataBaseConection.getDataBaseConection();
+			String sql = "delete from CARS where NO = ?";
+			try {
+				PreparedStatement prep = conn.prepareStatement(sql);
+				prep.setString(1, n);
+				prep.execute();
+				refreshContent2();
+				prep.close();
+				conn.close();
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+	
+	}//end class delete
+
+
+public void refreshContent3(){
+	try{
+		MyTableModel model = selectAll();
+		model.fireTableDataChanged();
+		myTable.setModel(model);
+	}
+	catch(Exception ex){}
+	}// end refreshContent()
+
+public MyTableModel selectAllOrders(){
+	String sql = "select O.ID_ORDER ,C.FIRST_NAME ,"
+			+ "C.LAST_NAME ,C.EMAIL ,C.PHONE ,C.ADDRESS ,"
+			+ "K.MAKE ,K.MODEL ,K.NO ,K.PRICE ,"
+			+ "K.YEAR FROM ORDERS AS O INNER JOIN CUSTUMERS AS C ON O.ID_CUSTUMER = "
+			+ "C.ID_CUSTUMER INNER JOIN CARS AS K ON O.ID_CAR =  "
+			+ "K.ID_CAR;";
+	conn = DataBaseConection.getDataBaseConection();
+	
+	try {
+		PreparedStatement prep = conn.prepareStatement(sql);
+		ResultSet result = prep.executeQuery();
+		MyTableModel model = new MyTableModel(result);
+		return model;
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	}
+}// end selectAll()
+
+class ViewAllOrders implements ActionListener {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	String sql = "select O.ID_ORDER ,C.FIRST_NAME ,"
+			+ "C.LAST_NAME ,C.EMAIL ,C.PHONE ,C.ADDRESS ,"
+			+ "K.MAKE ,K.MODEL ,K.NO ,K.PRICE ,"
+			+ "K.YEAR FROM ORDERS AS O INNER JOIN CUSTUMERS AS C ON O.ID_CUSTUMER = "
+			+ "C.ID_CUSTUMER INNER JOIN CARS AS K ON O.ID_CAR =  "
+			+ "K.ID_CAR;";
+	conn = DataBaseConection.getDataBaseConection();
+	try {
+		PreparedStatement prep = conn.prepareStatement(sql);
+		ResultSet result = prep.executeQuery();
+		MyTableModel model = new MyTableModel(result);
+		model.fireTableDataChanged();
+		myTable3.setModel(model);
+		myTable3.repaint();
+		prep.close();
+		conn.close();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+		
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+}
+}
+
 }
