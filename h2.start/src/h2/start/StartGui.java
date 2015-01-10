@@ -532,7 +532,7 @@ public class StartGui extends JFrame {
 			int n = Integer.parseInt(idCar.getText());
 			String mk = make.getText();
 			String mo = model.getText();
-			String no = number3.getText();
+			String no = number.getText();
 			double pr = Double.parseDouble(price.getText());
 			int yr = Integer.parseInt(year.getText());
 			conn = DataBaseConection.getDataBaseConection();
