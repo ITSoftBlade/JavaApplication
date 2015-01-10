@@ -3,10 +3,9 @@ package h2.start;
 public class StartProgram {
 	
 	@SuppressWarnings("unused")
-	private static startGui start;
+	private static StartGui start;
 
 	public static void main(String[] args) {
-		start = new startGui();
-		
-	}		
+		start = new StartGui();
+		}		
 }

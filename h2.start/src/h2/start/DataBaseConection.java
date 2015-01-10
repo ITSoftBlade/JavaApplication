@@ -20,8 +20,6 @@ public  DataBaseConection() {
 }		
 		
 public static Connection getDataBaseConection() {
-	
-	System.out.println("worc");
 	try {
 		//register driver
 		Class.forName(JDBS_DRIVER);
