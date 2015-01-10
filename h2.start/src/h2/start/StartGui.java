@@ -45,14 +45,14 @@ public class StartGui extends JFrame {
 	private JLabel idCustumerLabel =new JLabel("ID custumer");
 	private JLabel firstNameLabel = new JLabel("First Name");
 	private JLabel lastNameLabel = new JLabel("Last Name");
-	private JLabel emailLabel = new JLabel("E-mail(UNIQUE FIELD)");
+	private JLabel emailLabel = new JLabel("E-mail");
 	private JLabel phoneLabel = new JLabel("Phone");
 	private JLabel addressLabel = new JLabel("Address");
 	//tab 2 label
 	private JLabel idCarLebel = new JLabel("ID car");
 	private JLabel makeLabel = new JLabel("Make");
 	private JLabel modelLabel = new JLabel("Model");
-	private JLabel numberLabel = new JLabel("No(!UNIQUE FIELD)");
+	private JLabel numberLabel = new JLabel("Number");
 	private JLabel priceLabel = new JLabel("Price");
 	private JLabel yearLabel = new JLabel("Year");
 	//tab 3 label
