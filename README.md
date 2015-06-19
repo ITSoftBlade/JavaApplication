@@ -1,3 +1,3 @@
 # JavaApplication
 first instal H2 database
-second run
+second run H2
